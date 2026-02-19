@@ -1,3 +1,31 @@
+/* ============================================================
+   CSS VARIABLES
+   Define colors and values once here — use them everywhere.
+   To change the brand color, just update --color-brand-start
+   and --color-brand-end and it updates the whole app.
+   ============================================================ */
+:root {
+  --color-brand-start: #667eea;
+  --color-brand-end: #764ba2;
+  --color-brand-gradient: linear-gradient(135deg, var(--color-brand-start) 0%, var(--color-brand-end) 100%);
+
+  --color-bg-card: rgba(255, 255, 255, 0.95);
+  --color-border: #e0e0e0;
+  --color-text-dark: #333;
+  --color-text-mid: #555;
+  --color-text-light: #666;
+  --color-row-hover: #f8f9fa;
+
+  --border-radius: 8px;
+  --border-radius-large: 12px;
+  --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ============================================================
+   RESET & BASE
+   Remove default browser spacing and set the font.
+   ============================================================ */
 * {
   margin: 0;
   padding: 0;
@@ -6,11 +34,10 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-brand-gradient);
   min-height: 100vh;
 }
 
@@ -20,9 +47,12 @@ body {
   flex-direction: column;
 }
 
-/* Header */
+
+/* ============================================================
+   HEADER
+   ============================================================ */
 .header {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--color-bg-card);
   backdrop-filter: blur(10px);
   padding: 1.5rem 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -33,7 +63,8 @@ body {
 
 .header h1 {
   font-size: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Gradient text effect */
+  background: var(--color-brand-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -44,16 +75,19 @@ body {
   gap: 1rem;
 }
 
-/* Buttons */
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 .btn {
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-brand-gradient);
   color: white;
 }
 
@@ -62,8 +96,9 @@ body {
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
+/* Active state — reversed gradient to show it's "on" */
 .btn-active {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, var(--color-brand-end) 0%, var(--color-brand-start) 100%);
 }
 
 .btn-small {
@@ -80,7 +115,10 @@ body {
   background: #5a6268;
 }
 
-/* Container */
+
+/* ============================================================
+   LAYOUT — main container that holds sidebar + content
+   ============================================================ */
 .container {
   display: flex;
   flex: 1;
@@ -91,30 +129,33 @@ body {
   width: 100%;
 }
 
-/* Sidebar */
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 .sidebar {
   width: 350px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--color-bg-card);
   backdrop-filter: blur(10px);
-  border-radius: 12px;
+  border-radius: var(--border-radius-large);
   padding: 1.5rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 140px);
   overflow-y: auto;
 }
 
-/* Filters Section */
+/* Filters block at the top of the sidebar */
 .filters-section {
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .filters-section h3 {
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
 .filter-group {
@@ -125,39 +166,29 @@ body {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #555;
+  color: var(--color-text-mid);
   font-size: 0.875rem;
 }
 
-.search-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
+.search-input,
 .filter-select {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
   font-size: 1rem;
-  background: white;
-  cursor: pointer;
   transition: all 0.3s ease;
 }
 
+.filter-select {
+  background: white;
+  cursor: pointer;
+}
+
+.search-input:focus,
 .filter-select:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--color-brand-start);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -168,12 +199,12 @@ body {
   margin-top: 1rem;
 }
 
-/* Compare Info */
+/* The compare mode info box */
 .compare-info {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-brand-gradient);
   color: white;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   margin-bottom: 1rem;
   text-align: center;
 }
@@ -183,7 +214,7 @@ body {
   font-weight: 600;
 }
 
-/* Player List */
+/* Scrollable player list */
 .player-list {
   flex: 1;
   overflow-y: auto;
@@ -191,28 +222,28 @@ body {
 
 .player-list h4 {
   margin-bottom: 0.75rem;
-  color: #333;
+  color: var(--color-text-dark);
   font-size: 1rem;
 }
 
+/* Custom scrollbar for the player list */
 .player-list::-webkit-scrollbar {
   width: 6px;
 }
-
 .player-list::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
-
 .player-list::-webkit-scrollbar-thumb {
-  background: #667eea;
+  background: var(--color-brand-start);
   border-radius: 10px;
 }
 
+/* Individual player row in the list */
 .player-item {
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   transition: all 0.2s ease;
   background: #f8f9fa;
@@ -227,7 +258,7 @@ body {
 }
 
 .player-item.selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-brand-gradient);
   color: white;
   font-weight: 600;
 }
@@ -236,14 +267,17 @@ body {
   font-size: 1.2rem;
 }
 
-/* Main Content */
+
+/* ============================================================
+   MAIN CONTENT AREA
+   ============================================================ */
 .main-content {
   flex: 1;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--color-bg-card);
   backdrop-filter: blur(10px);
-  border-radius: 12px;
+  border-radius: var(--border-radius-large);
   padding: 2rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   overflow-y: auto;
   max-height: calc(100vh - 140px);
 }
@@ -251,14 +285,14 @@ body {
 .loading {
   text-align: center;
   font-size: 1.5rem;
-  color: #667eea;
+  color: var(--color-brand-start);
   padding: 3rem;
 }
 
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  color: #666;
+  color: var(--color-text-light);
 }
 
 .empty-state p {
@@ -266,7 +300,10 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Player View */
+
+/* ============================================================
+   PLAYER VIEW — individual player stats page
+   ============================================================ */
 .player-view {
   animation: fadeIn 0.3s ease;
 }
@@ -274,9 +311,10 @@ body {
 .player-header h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
+/* The 4 summary cards at the top (Seasons, PPG, APG, RPG) */
 .career-summary {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -285,47 +323,48 @@ body {
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-brand-gradient);
   color: white;
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: var(--border-radius-large);
   text-align: center;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-.stat-label {
+.stat-card .stat-label {
   display: block;
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
   opacity: 0.9;
 }
 
-.stat-value {
+.stat-card .stat-value {
   display: block;
   font-size: 2rem;
   font-weight: bold;
 }
 
+/* Line chart */
 .chart-container {
   margin: 2rem 0;
   padding: 1.5rem;
   background: #f8f9fa;
-  border-radius: 12px;
+  border-radius: var(--border-radius-large);
 }
 
 .chart-container h3 {
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
-/* Tables */
+/* Season-by-season stats table */
 .stats-table {
   margin-top: 2rem;
 }
 
 .stats-table h3 {
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
 .table-scroll {
@@ -338,13 +377,13 @@ table {
   min-width: 1200px;
   border-collapse: collapse;
   background: white;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-brand-gradient);
   color: white;
 }
 
@@ -356,28 +395,33 @@ th {
 
 td {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 tbody tr:hover {
-  background: #f8f9fa;
+  background: var(--color-row-hover);
 }
 
 tbody tr:last-child td {
   border-bottom: none;
 }
 
+/* Player name cell in tables */
 .player-name {
   font-weight: 600;
-  color: #667eea;
+  color: var(--color-brand-start);
 }
 
+/* Highlighted stat (e.g. points column) */
 .highlight {
   font-weight: bold;
-  color: #764ba2;
+  color: var(--color-brand-end);
 }
 
-/* Filtered Stats View */
+
+/* ============================================================
+   FILTERED STATS VIEW — card grid shown after "Show Stats Table"
+   ============================================================ */
 .filtered-stats-view {
   animation: fadeIn 0.3s ease;
 }
@@ -388,16 +432,16 @@ tbody tr:last-child td {
 
 .filtered-stats-header h2 {
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--color-text-dark);
   font-size: 1.75rem;
 }
 
 .results-count {
-  color: #666;
+  color: var(--color-text-light);
   font-size: 0.95rem;
 }
 
-/* Player Cards Grid */
+/* The grid of player cards */
 .player-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -407,7 +451,7 @@ tbody tr:last-child td {
 
 .player-card {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--border-radius-large);
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
@@ -422,16 +466,15 @@ tbody tr:last-child td {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Card Image */
+/* Avatar placeholder box */
 .player-card-image {
   width: 100%;
   height: 180px;
   background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.5rem;
 }
 
 .player-initials {
@@ -441,7 +484,7 @@ tbody tr:last-child td {
   user-select: none;
 }
 
-/* Card Info */
+/* Name, team, and position badge */
 .player-card-info {
   text-align: center;
   padding-bottom: 1rem;
@@ -452,13 +495,13 @@ tbody tr:last-child td {
 .player-card-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #333;
+  color: var(--color-text-dark);
   margin-bottom: 0.25rem;
 }
 
 .player-card-team {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--color-text-light);
   margin: 0;
 }
 
@@ -466,15 +509,15 @@ tbody tr:last-child td {
   position: absolute;
   top: 0;
   right: 0;
-  background: #667eea;
+  background: var(--color-brand-start);
   color: white;
   padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  border-radius: var(--border-radius-large);
   font-size: 0.75rem;
   font-weight: 600;
 }
 
-/* Main Stats */
+/* PPG / APG / RPG row */
 .player-card-stats-main {
   display: flex;
   justify-content: space-around;
@@ -489,23 +532,24 @@ tbody tr:last-child td {
   flex: 1;
 }
 
-.stat-value {
+/* These only apply inside player cards (not the career summary stat cards above) */
+.stat-item .stat-value {
   font-size: 1.75rem;
   font-weight: bold;
-  color: #000000;
+  color: #000;
   line-height: 1;
 }
 
-.stat-label {
+.stat-item .stat-label {
   font-size: 0.75rem;
-  color: #000000;
+  color: #000;
   margin-top: 0.25rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-/* Secondary Stats */
+/* FG% / FT% row */
 .player-card-stats-secondary {
   display: flex;
   justify-content: space-around;
@@ -524,7 +568,7 @@ tbody tr:last-child td {
 
 .secondary-label {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--color-text-light);
   margin-bottom: 0.25rem;
   font-weight: 600;
 }
@@ -532,15 +576,15 @@ tbody tr:last-child td {
 .secondary-value {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
-/* Card Footer */
+/* GP / MPG footer row */
 .player-card-footer {
   display: flex;
   justify-content: space-around;
   font-size: 0.875rem;
-  color: #666;
+  color: var(--color-text-light);
   padding-top: 0.5rem;
 }
 
@@ -548,21 +592,27 @@ tbody tr:last-child td {
   font-weight: 500;
 }
 
-/* Comparison View */
+
+/* ============================================================
+   COMPARISON VIEW
+   ============================================================ */
 .comparison-view {
   animation: fadeIn 0.3s ease;
 }
 
 .comparison-view h2 {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
 .comparison-table {
   margin-bottom: 2rem;
 }
 
-/* Animations */
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -574,7 +624,10 @@ tbody tr:last-child td {
   }
 }
 
-/* Responsive Design */
+
+/* ============================================================
+   RESPONSIVE — tablet and mobile adjustments
+   ============================================================ */
 @media (max-width: 1200px) {
   .container {
     flex-direction: column;
@@ -611,7 +664,8 @@ tbody tr:last-child td {
     font-size: 0.875rem;
   }
 
-  th, td {
+  th,
+  td {
     padding: 0.5rem;
   }
 }

@@ -10,21 +10,35 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+// Displays a single player's career chart and season-by-season stats table.
 function PlayerView({ playerData, careerStats }) {
-  const prepareChartData = () => {
+
+  // Turn the raw stats array into the format Recharts needs.
+  // Each entry becomes { year, PTS, AST, REB }.
+  function buildChartData() {
     if (!playerData?.stats) return [];
-    return playerData.stats.map((s) => ({
-      year: s.year,
-      PTS: s.pts,
-      AST: s.ast,
-      REB: s.reb,
+
+    return playerData.stats.map((season) => ({
+      year: season.year,
+      PTS: season.pts,
+      AST: season.ast,
+      REB: season.reb,
     }));
-  };
+  }
+
+  // Helper: converts a decimal like 0.456 to "45.6%" — returns "-" if no value
+  function formatPct(value) {
+    if (!value) return "-";
+    return (value * 100).toFixed(1) + "%";
+  }
 
   return (
     <div className="player-view">
+
+      {/* ── Player name + career summary cards ── */}
       <div className="player-header">
         <h2>{playerData.player.playerName}</h2>
+
         {careerStats && (
           <div className="career-summary">
             <div className="stat-card">
@@ -47,12 +61,14 @@ function PlayerView({ playerData, careerStats }) {
         )}
       </div>
 
+      {/* Only show the chart and table if there are stats to show */}
       {playerData.stats.length > 0 && (
         <>
+          {/* ── Line chart ── */}
           <div className="chart-container">
             <h3>Career Progression</h3>
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={prepareChartData()}>
+              <LineChart data={buildChartData()}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="year" />
                 <YAxis />
@@ -65,6 +81,7 @@ function PlayerView({ playerData, careerStats }) {
             </ResponsiveContainer>
           </div>
 
+          {/* ── Season-by-season stats table ── */}
           <div className="stats-table">
             <h3>Season-by-Season Stats</h3>
             <div className="table-scroll">
@@ -93,27 +110,27 @@ function PlayerView({ playerData, careerStats }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {playerData.stats.map((s, index) => (
+                  {playerData.stats.map((season, index) => (
                     <tr key={index}>
-                      <td>{s.year}</td>
-                      <td>{s.teamName}</td>
-                      <td>{s.games_played}</td>
-                      <td>{s.games_started || "-"}</td>
-                      <td>{s.mp?.toFixed(1)}</td>
-                      <td className="highlight">{s.pts}</td>
-                      <td>{s.ast}</td>
-                      <td>{s.reb}</td>
-                      <td>{s.orb || "-"}</td>
-                      <td>{s.drb || "-"}</td>
-                      <td>{s.stl || "-"}</td>
-                      <td>{s.blk || "-"}</td>
-                      <td>{s.tov || "-"}</td>
-                      <td>{s.pf || "-"}</td>
-                      <td>{s.fg_pct ? (s.fg_pct * 100).toFixed(1) + "%" : "-"}</td>
-                      <td>{s.three_pt_pct ? (s.three_pt_pct * 100).toFixed(1) + "%" : "-"}</td>
-                      <td>{s.two_pt_pct ? (s.two_pt_pct * 100).toFixed(1) + "%" : "-"}</td>
-                      <td>{s.ft_pct ? (s.ft_pct * 100).toFixed(1) + "%" : "-"}</td>
-                      <td>{s.efg_pct ? (s.efg_pct * 100).toFixed(1) + "%" : "-"}</td>
+                      <td>{season.year}</td>
+                      <td>{season.teamName}</td>
+                      <td>{season.games_played}</td>
+                      <td>{season.games_started || "-"}</td>
+                      <td>{season.mp?.toFixed(1)}</td>
+                      <td className="highlight">{season.pts}</td>
+                      <td>{season.ast}</td>
+                      <td>{season.reb}</td>
+                      <td>{season.orb || "-"}</td>
+                      <td>{season.drb || "-"}</td>
+                      <td>{season.stl || "-"}</td>
+                      <td>{season.blk || "-"}</td>
+                      <td>{season.tov || "-"}</td>
+                      <td>{season.pf || "-"}</td>
+                      <td>{formatPct(season.fg_pct)}</td>
+                      <td>{formatPct(season.three_pt_pct)}</td>
+                      <td>{formatPct(season.two_pt_pct)}</td>
+                      <td>{formatPct(season.ft_pct)}</td>
+                      <td>{formatPct(season.efg_pct)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -122,6 +139,7 @@ function PlayerView({ playerData, careerStats }) {
           </div>
         </>
       )}
+
     </div>
   );
 }

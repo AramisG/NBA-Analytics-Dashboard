@@ -1,37 +1,58 @@
 import React from "react";
 
+// Shows a grid of player cards based on the current filters.
+// Clicking a card loads that player's full stats page.
 function FilteredStatsView({ filteredStatsData, handleSelectPlayer }) {
+
+  // Helper: converts 0.456 → "45.6%", returns "-" if no value
+  function formatPct(value) {
+    if (!value) return "-";
+    return (value * 100).toFixed(1) + "%";
+  }
+
+  // Helper: turn "LeBron James" into initials "LJ" for the avatar placeholder
+  function getInitials(name) {
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("");
+  }
+
   return (
     <div className="filtered-stats-view">
+
+      {/* ── Header ── */}
       <div className="filtered-stats-header">
         <h2>Filtered Player Stats</h2>
         <p className="results-count">Showing {filteredStatsData.length} results</p>
       </div>
-      
+
+      {/* ── Card grid ── */}
       <div className="player-cards-grid">
         {filteredStatsData.map((stat, index) => (
-          <div 
+          <div
             key={index}
             onClick={() => handleSelectPlayer(stat.playerID)}
             className="player-card"
           >
-            {/* Image Placeholder */}
+
+            {/* Avatar placeholder with initials */}
             <div className="player-card-image">
-              <div className="player-initials">
-                {stat.playerName.split(' ').map(n => n[0]).join('')}
-              </div>
+              <div className="player-initials">{getInitials(stat.playerName)}</div>
             </div>
 
-            {/* Player Info */}
+            {/* Name, team, year, and position badge */}
             <div className="player-card-info">
               <h3 className="player-card-name">{stat.playerName}</h3>
               <p className="player-card-team">
                 {stat.teamName} • {stat.year}
               </p>
-              {stat.pos && <span className="player-card-position">{stat.pos}</span>}
+              {stat.pos && (
+                <span className="player-card-position">{stat.pos}</span>
+              )}
             </div>
 
-            {/* Main Stats */}
+            {/* Main stats: points, assists, rebounds */}
             <div className="player-card-stats-main">
               <div className="stat-item">
                 <span className="stat-value">{stat.pts}</span>
@@ -47,30 +68,28 @@ function FilteredStatsView({ filteredStatsData, handleSelectPlayer }) {
               </div>
             </div>
 
-            {/* Secondary Stats */}
+            {/* Secondary stats: shooting percentages */}
             <div className="player-card-stats-secondary">
               <div className="secondary-stat">
                 <span className="secondary-label">FG%</span>
-                <span className="secondary-value">
-                  {stat.fg_pct ? (stat.fg_pct * 100).toFixed(1) + "%" : "-"}
-                </span>
+                <span className="secondary-value">{formatPct(stat.fg_pct)}</span>
               </div>
               <div className="secondary-stat">
                 <span className="secondary-label">FT%</span>
-                <span className="secondary-value">
-                  {stat.ft_pct ? (stat.ft_pct * 100).toFixed(1) + "%" : "-"}
-                </span>
+                <span className="secondary-value">{formatPct(stat.ft_pct)}</span>
               </div>
             </div>
 
-            {/* Footer Stats */}
+            {/* Footer: games played and minutes */}
             <div className="player-card-footer">
               <span>GP: {stat.games_played}</span>
               <span>MPG: {stat.minutes_played?.toFixed(1)}</span>
             </div>
+
           </div>
         ))}
       </div>
+
     </div>
   );
 }

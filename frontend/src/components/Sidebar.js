@@ -1,5 +1,6 @@
 import React from "react";
 
+// Sidebar holds all the filters and the scrollable player list.
 function Sidebar({
   searchTerm,
   setSearchTerm,
@@ -9,22 +10,24 @@ function Sidebar({
   setSelectedSeason,
   teams,
   seasons,
-  filteredPlayers,
-  selectedPlayer,
+  visiblePlayers,       // the already-filtered list of players to display
+  selectedPlayerID,     // the ID of the currently selected player (normal mode)
   handleSelectPlayer,
   compareMode,
-  comparisonPlayers,
+  comparisonPlayerIDs,  // list of player IDs selected for comparison
   handleCompare,
   clearComparison,
   handleShowFilteredStats,
-  clearFilters
+  clearFilters,
 }) {
   return (
     <aside className="sidebar">
+
+      {/* ── Filters ── */}
       <div className="filters-section">
         <h3>Filters</h3>
-        
-        {/* Search */}
+
+        {/* Player name search */}
         <div className="filter-group">
           <label>Search Player</label>
           <input
@@ -36,7 +39,7 @@ function Sidebar({
           />
         </div>
 
-        {/* Team Filter */}
+        {/* Team dropdown */}
         <div className="filter-group">
           <label>Team</label>
           <select
@@ -53,7 +56,7 @@ function Sidebar({
           </select>
         </div>
 
-        {/* Season Filter */}
+        {/* Season dropdown */}
         <div className="filter-group">
           <label>Season</label>
           <select
@@ -70,7 +73,7 @@ function Sidebar({
           </select>
         </div>
 
-        {/* Filter Actions */}
+        {/* Action buttons */}
         <div className="filter-actions">
           <button className="btn btn-small" onClick={handleShowFilteredStats}>
             Show Stats Table
@@ -81,15 +84,21 @@ function Sidebar({
         </div>
       </div>
 
+      {/* ── Compare mode info box ── */}
+      {/* Only shown when compare mode is active */}
       {compareMode && (
         <div className="compare-info">
-          <p>Selected: {comparisonPlayers.length}/3</p>
-          {comparisonPlayers.length >= 2 && (
+          <p>Selected: {comparisonPlayerIDs.length} / 3</p>
+
+          {/* Show "Compare Now" once 2+ players are selected */}
+          {comparisonPlayerIDs.length >= 2 && (
             <button className="btn btn-small" onClick={handleCompare}>
               Compare Now
             </button>
           )}
-          {comparisonPlayers.length > 0 && (
+
+          {/* Show "Clear" once at least 1 player is selected */}
+          {comparisonPlayerIDs.length > 0 && (
             <button className="btn btn-small btn-secondary" onClick={clearComparison}>
               Clear
             </button>
@@ -97,12 +106,15 @@ function Sidebar({
         </div>
       )}
 
+      {/* ── Player list ── */}
       <div className="player-list">
-        <h4>Players ({filteredPlayers.length})</h4>
-        {filteredPlayers.map((player) => {
+        <h4>Players ({visiblePlayers.length})</h4>
+
+        {visiblePlayers.map((player) => {
+          // Figure out if this player should appear highlighted
           const isSelected = compareMode
-            ? comparisonPlayers.includes(player.playerID)
-            : selectedPlayer === player.playerID;
+            ? comparisonPlayerIDs.includes(player.playerID)  // compare mode: is this one of the picked players?
+            : selectedPlayerID === player.playerID;          // normal mode: is this the viewed player?
 
           return (
             <div
@@ -111,11 +123,13 @@ function Sidebar({
               className={`player-item ${isSelected ? "selected" : ""}`}
             >
               {player.playerName}
+              {/* Show a checkmark next to selected players in compare mode */}
               {compareMode && isSelected && <span className="check">✓</span>}
             </div>
           );
         })}
       </div>
+
     </aside>
   );
 }

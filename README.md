@@ -6,14 +6,14 @@ Prerequisites
 
 - Python 3.8+ (3.10+ recommended)
 - Node.js 16+ and npm
-- MySQL server with a database named `NBA` (or modify `DB_NAME` in your env)
+- MySQL server with a database, script I used to scrape data in data.ipynb
 
 Backend
 
 1. Create a virtual environment and install dependencies:
 
 ```powershell
-cd "C:\Users\arami\Desktop\NBA PROJECT NEW\backend"
+cd "C:...\backend"
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
